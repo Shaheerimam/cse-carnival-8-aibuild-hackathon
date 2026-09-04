@@ -111,25 +111,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 96,
+                      width: 150,
                       height: 96,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppTheme.primary.withValues(alpha: 0.28),
-                            blurRadius: 24,
-                            offset: const Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      clipBehavior: Clip.antiAlias,
+                      // decoration: BoxDecoration(
+                      //   borderRadius: BorderRadius.circular(20),
+                      //   boxShadow: [
+                      //     BoxShadow(
+                      //       color: AppTheme.primary.withValues(alpha: 0.28),
+                      //       blurRadius: 24,
+                      //       offset: const Offset(0, 10),
+                      //     ),
+                      //   ],
+                      // ),
+                      // clipBehavior: Clip.antiAlias,
                       child: Image.asset(
                         'assets/logo/wordmark-logo.png',
-                        fit: BoxFit.cover,
+                      
+                        // fit: BoxFit.fitWidth,
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 0),
                     Text(
                       _mode == _AuthMode.login ? 'Welcome back' : 'Create your account',
                       style: theme.textTheme.headlineMedium?.copyWith(
