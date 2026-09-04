@@ -23,7 +23,8 @@ void main() async {
   );
 
   const appCheckDebugToken = String.fromEnvironment(
-    'ad45cd03-6a03-46ce-9224-b04c742b26a6',
+    'FIREBASE_APPCHECK_DEBUG_TOKEN',
+    defaultValue: 'd10d115f-8204-4e32-a00a-faa278506575',
   );
 
   if (kDebugMode && appCheckDebugToken.isEmpty) {

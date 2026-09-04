@@ -15,7 +15,7 @@ class CampusAiService {
     final ai = FirebaseAI.googleAI();
 
     return ai.generativeModel(
-      model: 'gemini-3.7-flash',
+      model: 'gemini-3.1-flash-lite',
       tools: [
         Tool.functionDeclarations([
           FunctionDeclaration(
