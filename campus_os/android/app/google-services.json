@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "263099468650",
+    "project_id": "campusos-hackathon-766f0",
+    "storage_bucket": "campusos-hackathon-766f0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263099468650:android:1d240527ce80bd63167313",
+        "android_client_info": {
+          "package_name": "com.example.campus_os"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9WPyMilvwOkz0_mbTzJOKk-dC00cxKlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
