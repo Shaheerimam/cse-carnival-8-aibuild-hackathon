@@ -5,6 +5,7 @@ import '../providers/schedule_provider.dart';
 import '../providers/event_provider.dart';
 import '../providers/announcement_provider.dart';
 import '../providers/assignment_provider.dart';
+import '../providers/session_provider.dart';
 import '../widgets/shared_widgets.dart';
 import 'main_shell.dart';
 import 'announcements_screen.dart';
@@ -35,21 +36,16 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     // Logo
                     Container(
+                      padding: const EdgeInsets.all(4),
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: AppTheme.primary,
                         borderRadius: BorderRadius.circular(14),
                       ),
-                      child: const Center(
-                        child: Text(
-                          'C',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      clipBehavior: Clip.antiAlias,
+                      child: Image.asset(
+                        'assets/logo/campus-os-appicon-dark.png',
+                        fit: BoxFit.cover,
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -57,20 +53,33 @@ class HomeScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            _greeting(),
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: AppTheme.textSecondary,
-                            ),
-                          ),
-                          const Text(
-                            'CampusOS',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
-                            ),
+                          Consumer<SessionProvider>(
+                            builder: (context, session, _) {
+                              final user = session.currentUser;
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    user == null ? _greeting() : 'Welcome, ${user.name}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: AppTheme.textSecondary,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    user == null
+                                        ? 'CampusOS'
+                                        : 'CampusOS • ${user.department} ${user.role}',
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppTheme.textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -86,10 +95,27 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.notifications_outlined),
-                        color: AppTheme.textPrimary,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.notifications_outlined),
+                            color: AppTheme.textPrimary,
+                          ),
+                          Consumer<SessionProvider>(
+                            builder: (context, session, _) {
+                              return IconButton(
+                                tooltip: 'Switch user',
+                                onPressed: session.currentUser == null
+                                    ? null
+                                    : () => context.read<SessionProvider>().signOut(),
+                                icon: const Icon(Icons.logout_rounded),
+                                color: AppTheme.textPrimary,
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ],

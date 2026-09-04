@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,8 @@ import 'providers/event_provider.dart';
 import 'providers/announcement_provider.dart';
 import 'providers/assignment_provider.dart';
 import 'providers/chat_provider.dart';
+import 'providers/session_provider.dart';
+import 'screens/login_screen.dart';
 import 'screens/main_shell.dart';
 
 void main() async {
@@ -47,8 +48,6 @@ void main() async {
     ),
   );
 
-  await _ensureAuthenticated();
-
   // Seed Firestore from bundled JSON assets when the collections are empty.
   final dataService = DataService();
   await dataService.loadSeedData();
@@ -68,6 +67,7 @@ class CampusOSApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => SessionProvider()),
         ChangeNotifierProvider(create: (_) => ScheduleProvider(dataService)),
         ChangeNotifierProvider(create: (_) => RoomProvider(dataService)),
         ChangeNotifierProvider(create: (_) => EventProvider(dataService)),
@@ -79,15 +79,44 @@ class CampusOSApp extends StatelessWidget {
         title: 'CampusOS',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
-        home: const MainShell(),
+        home: const AuthGate(),
       ),
     );
   }
 }
 
-Future<void> _ensureAuthenticated() async {
-  final auth = FirebaseAuth.instance;
-  if (auth.currentUser != null) return;
+class AuthGate extends StatelessWidget {
+  const AuthGate({super.key});
 
-  await auth.signInAnonymously();
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<SessionProvider>(
+      builder: (context, session, _) {
+        if (session.isResolvingAuth) {
+          return const _AuthLoadingScreen();
+        }
+        return session.currentUser == null ? const LoginScreen() : const MainShell();
+      },
+    );
+  }
+}
+
+class _AuthLoadingScreen extends StatelessWidget {
+  const _AuthLoadingScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('Loading your CampusOS profile...'),
+          ],
+        ),
+      ),
+    );
+  }
 }
