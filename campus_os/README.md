@@ -39,7 +39,7 @@ CampusOS is a Flutter-based mobile and web application that acts as a unified sm
 ### 1 · Clone the repository
 
 ```bash
-git clone https://github.com/<your-org>/cse-carnival-8-aibuild-hackathon.git
+git clone https://github.com/Shaheerimam/cse-carnival-8-aibuild-hackathon
 cd cse-carnival-8-aibuild-hackathon/campus_os
 ```
 

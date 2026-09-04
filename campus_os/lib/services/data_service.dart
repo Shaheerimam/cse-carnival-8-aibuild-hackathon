@@ -19,6 +19,31 @@ class DataService {
 
   bool _loaded = false;
 
+  /// Reload all collections from Firestore regardless of cache state.
+  /// Call this before every AI response to ensure live data.
+  Future<void> reloadData() async {
+      schedules = await _loadCollection(
+          collectionName: 'schedules',
+          fromJson: Schedule.fromJson,
+      );
+      rooms = await _loadCollection(
+          collectionName: 'rooms',
+          fromJson: Room.fromJson,
+      );
+      events = await _loadCollection(
+          collectionName: 'events',
+          fromJson: Event.fromJson,
+      );
+      announcements = await _loadCollection(
+          collectionName: 'announcements',
+          fromJson: Announcement.fromJson,
+      );
+      assignments = await _loadCollection(
+          collectionName: 'assignments',
+          fromJson: Assignment.fromJson,
+      );
+  }
+
   Future<void> loadSeedData() async {
     if (_loaded) return;
 
