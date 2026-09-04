@@ -70,7 +70,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> with SingleTicker
               return ListView.separated(
                 padding: const EdgeInsets.all(20),
                 itemCount: items.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
                 itemBuilder: (context, index) => _AssignmentCard(
                   assignment: items[index],
                   onEdit: () => _showForm(context, items[index]),
@@ -136,7 +136,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> with SingleTicker
                     const SizedBox(width: 12),
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        value: status,
+                        initialValue: status,
                         decoration: const InputDecoration(labelText: 'Status'),
                         items: ['pending', 'submitted', 'graded', 'late']
                             .map((s) => DropdownMenuItem(value: s, child: Text(s)))

@@ -99,7 +99,7 @@ class _RoomsScreenState extends State<RoomsScreen> {
                     : ListView.separated(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
                         itemCount: rooms.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                        separatorBuilder: (_, _) => const SizedBox(height: 12),
                         itemBuilder: (context, index) => _RoomCard(
                           room: rooms[index],
                           onTap: () => _showRoomDetail(context, rooms[index]),
@@ -388,7 +388,7 @@ class _RoomsScreenState extends State<RoomsScreen> {
                 TextField(controller: numberCtrl, decoration: const InputDecoration(labelText: 'Room Number', hintText: '7A01')),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
-                  value: type,
+                  initialValue: type,
                   decoration: const InputDecoration(labelText: 'Type'),
                   items: ['classroom', 'lab', 'seminar'].map((t) => DropdownMenuItem(value: t, child: Text(t))).toList(),
                   onChanged: (v) => setModalState(() => type = v!),
@@ -405,7 +405,7 @@ class _RoomsScreenState extends State<RoomsScreen> {
                 TextField(controller: equipCtrl, decoration: const InputDecoration(labelText: 'Equipment', hintText: 'projector, AC, whiteboard')),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
-                  value: status,
+                  initialValue: status,
                   decoration: const InputDecoration(labelText: 'Status'),
                   items: ['available', 'unavailable'].map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
                   onChanged: (v) => setModalState(() => status = v!),

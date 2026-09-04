@@ -12,51 +12,29 @@ class EventProvider extends ChangeNotifier {
       events.where((e) => e.status == 'upcoming').toList()
         ..sort((a, b) => a.date.compareTo(b.date));
 
-  void add(Event event) {
-    _dataService.events.add(event);
+  Future<void> add(Event event) async {
+    await _dataService.saveEvent(event);
     notifyListeners();
   }
 
-  void update(Event event) {
-    final index = _dataService.events.indexWhere((e) => e.id == event.id);
-    if (index != -1) {
-      _dataService.events[index] = event;
-      notifyListeners();
-    }
-  }
-
-  void delete(String id) {
-    _dataService.events.removeWhere((e) => e.id == id);
+  Future<void> update(Event event) async {
+    await _dataService.saveEvent(event);
     notifyListeners();
   }
 
-  void register(String eventId, Registration registration) {
-    final index = _dataService.events.indexWhere((e) => e.id == eventId);
-    if (index != -1) {
-      final event = _dataService.events[index];
-      if (event.isFull) return;
-      _dataService.events[index] = event.copyWith(
-        registered: event.registered + 1,
-        registrations: [...event.registrations, registration],
-        status: event.registered + 1 >= event.capacity ? 'full' : event.status,
-      );
-      notifyListeners();
-    }
+  Future<void> delete(String id) async {
+    await _dataService.deleteEvent(id);
+    notifyListeners();
   }
 
-  void cancelRegistration(String eventId, String studentId) {
-    final index = _dataService.events.indexWhere((e) => e.id == eventId);
-    if (index != -1) {
-      final event = _dataService.events[index];
-      _dataService.events[index] = event.copyWith(
-        registered: (event.registered - 1).clamp(0, event.capacity),
-        registrations: event.registrations
-            .where((r) => r.studentId != studentId)
-            .toList(),
-        status: event.status == 'full' ? 'upcoming' : event.status,
-      );
-      notifyListeners();
-    }
+  Future<void> register(String eventId, Registration registration) async {
+    await _dataService.registerForEvent(eventId, registration);
+    notifyListeners();
+  }
+
+  Future<void> cancelRegistration(String eventId, String studentId) async {
+    await _dataService.cancelEventRegistration(eventId, studentId);
+    notifyListeners();
   }
 
   String generateId() => _dataService.generateId('evt');

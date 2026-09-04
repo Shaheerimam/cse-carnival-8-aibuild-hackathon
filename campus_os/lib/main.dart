@@ -1,5 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 import 'theme/app_theme.dart';
 import 'services/data_service.dart';
 import 'providers/schedule_provider.dart';
@@ -12,8 +15,13 @@ import 'screens/main_shell.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  // Load seed data from bundled JSON assets
+  await _ensureAuthenticated();
+
+  // Seed Firestore from bundled JSON assets when the collections are empty.
   final dataService = DataService();
   await dataService.loadSeedData();
 
@@ -44,4 +52,11 @@ class CampusOSApp extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _ensureAuthenticated() async {
+  final auth = FirebaseAuth.instance;
+  if (auth.currentUser != null) return;
+
+  await auth.signInAnonymously();
 }

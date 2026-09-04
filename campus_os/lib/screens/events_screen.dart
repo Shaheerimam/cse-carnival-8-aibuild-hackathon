@@ -30,7 +30,7 @@ class EventsScreen extends StatelessWidget {
           return ListView.separated(
             padding: const EdgeInsets.all(20),
             itemCount: events.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 14),
+            separatorBuilder: (_, _) => const SizedBox(height: 14),
             itemBuilder: (context, index) => _EventCard(
               event: events[index],
               onTap: () => _showEventDetail(context, events[index]),

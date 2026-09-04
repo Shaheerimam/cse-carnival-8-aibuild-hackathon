@@ -30,7 +30,7 @@ class AnnouncementsScreen extends StatelessWidget {
           return ListView.separated(
             padding: const EdgeInsets.all(20),
             itemCount: items.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            separatorBuilder: (_, _) => const SizedBox(height: 12),
             itemBuilder: (context, index) => _AnnouncementCard(
               announcement: items[index],
               onEdit: () => _showForm(context, items[index]),
@@ -80,7 +80,7 @@ class AnnouncementsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
-                  value: priority,
+                  initialValue: priority,
                   decoration: const InputDecoration(labelText: 'Priority'),
                   items: [
                     DropdownMenuItem(value: 'high', child: Row(children: [PriorityDot(priority: 'high'), SizedBox(width: 8), Text('High')])),

@@ -14,21 +14,18 @@ class AnnouncementProvider extends ChangeNotifier {
   List<Announcement> get highPriority =>
       announcements.where((a) => a.priority == 'high').toList();
 
-  void add(Announcement announcement) {
-    _dataService.announcements.add(announcement);
+  Future<void> add(Announcement announcement) async {
+    await _dataService.saveAnnouncement(announcement);
     notifyListeners();
   }
 
-  void update(Announcement announcement) {
-    final index = _dataService.announcements.indexWhere((a) => a.id == announcement.id);
-    if (index != -1) {
-      _dataService.announcements[index] = announcement;
-      notifyListeners();
-    }
+  Future<void> update(Announcement announcement) async {
+    await _dataService.saveAnnouncement(announcement);
+    notifyListeners();
   }
 
-  void delete(String id) {
-    _dataService.announcements.removeWhere((a) => a.id == id);
+  Future<void> delete(String id) async {
+    await _dataService.deleteAnnouncement(id);
     notifyListeners();
   }
 

@@ -21,44 +21,29 @@ class RoomProvider extends ChangeNotifier {
     ).toList();
   }
 
-  void add(Room room) {
-    _dataService.rooms.add(room);
+  Future<void> add(Room room) async {
+    await _dataService.saveRoom(room);
     notifyListeners();
   }
 
-  void update(Room room) {
-    final index = _dataService.rooms.indexWhere((r) => r.id == room.id);
-    if (index != -1) {
-      _dataService.rooms[index] = room;
-      notifyListeners();
-    }
-  }
-
-  void delete(String id) {
-    _dataService.rooms.removeWhere((r) => r.id == id);
+  Future<void> update(Room room) async {
+    await _dataService.saveRoom(room);
     notifyListeners();
   }
 
-  void addBooking(String roomId, Booking booking) {
-    final index = _dataService.rooms.indexWhere((r) => r.id == roomId);
-    if (index != -1) {
-      final room = _dataService.rooms[index];
-      _dataService.rooms[index] = room.copyWith(
-        bookings: [...room.bookings, booking],
-      );
-      notifyListeners();
-    }
+  Future<void> delete(String id) async {
+    await _dataService.deleteRoom(id);
+    notifyListeners();
   }
 
-  void cancelBooking(String roomId, String bookingId) {
-    final index = _dataService.rooms.indexWhere((r) => r.id == roomId);
-    if (index != -1) {
-      final room = _dataService.rooms[index];
-      _dataService.rooms[index] = room.copyWith(
-        bookings: room.bookings.where((b) => b.bookingId != bookingId).toList(),
-      );
-      notifyListeners();
-    }
+  Future<void> addBooking(String roomId, Booking booking) async {
+    await _dataService.addBooking(roomId, booking);
+    notifyListeners();
+  }
+
+  Future<void> cancelBooking(String roomId, String bookingId) async {
+    await _dataService.cancelBooking(roomId, bookingId);
+    notifyListeners();
   }
 
   String generateId() => _dataService.generateId('room');

@@ -25,21 +25,18 @@ class AssignmentProvider extends ChangeNotifier {
       ..sort((a, b) => a.deadline.compareTo(b.deadline));
   }
 
-  void add(Assignment assignment) {
-    _dataService.assignments.add(assignment);
+  Future<void> add(Assignment assignment) async {
+    await _dataService.saveAssignment(assignment);
     notifyListeners();
   }
 
-  void update(Assignment assignment) {
-    final index = _dataService.assignments.indexWhere((a) => a.id == assignment.id);
-    if (index != -1) {
-      _dataService.assignments[index] = assignment;
-      notifyListeners();
-    }
+  Future<void> update(Assignment assignment) async {
+    await _dataService.saveAssignment(assignment);
+    notifyListeners();
   }
 
-  void delete(String id) {
-    _dataService.assignments.removeWhere((a) => a.id == id);
+  Future<void> delete(String id) async {
+    await _dataService.deleteAssignment(id);
     notifyListeners();
   }
 

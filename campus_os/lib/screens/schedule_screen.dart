@@ -72,7 +72,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> with SingleTickerProvid
               return ListView.separated(
                 padding: const EdgeInsets.all(20),
                 itemCount: classes.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
                 itemBuilder: (context, index) => _ScheduleCard(
                   schedule: classes[index],
                   onEdit: () => _showEditDialog(context, classes[index]),
@@ -154,7 +154,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> with SingleTickerProvid
                 TextField(controller: titleCtrl, decoration: const InputDecoration(labelText: 'Course Title')),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
-                  value: selectedDay,
+                  initialValue: selectedDay,
                   decoration: const InputDecoration(labelText: 'Day'),
                   items: _days.map((d) => DropdownMenuItem(value: d, child: Text(d))).toList(),
                   onChanged: (v) => setModalState(() => selectedDay = v!),

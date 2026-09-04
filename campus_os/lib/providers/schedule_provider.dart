@@ -14,21 +14,18 @@ class ScheduleProvider extends ChangeNotifier {
 
   List<String> get days => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
 
-  void add(Schedule schedule) {
-    _dataService.schedules.add(schedule);
+  Future<void> add(Schedule schedule) async {
+    await _dataService.saveSchedule(schedule);
     notifyListeners();
   }
 
-  void update(Schedule schedule) {
-    final index = _dataService.schedules.indexWhere((s) => s.id == schedule.id);
-    if (index != -1) {
-      _dataService.schedules[index] = schedule;
-      notifyListeners();
-    }
+  Future<void> update(Schedule schedule) async {
+    await _dataService.saveSchedule(schedule);
+    notifyListeners();
   }
 
-  void delete(String id) {
-    _dataService.schedules.removeWhere((s) => s.id == id);
+  Future<void> delete(String id) async {
+    await _dataService.deleteSchedule(id);
     notifyListeners();
   }
 
